@@ -8,6 +8,7 @@ public class Middle : MonoBehaviour
     public LineRenderer line_right;
     public LineRenderer line_mine;
     private Vector3 lastPos;
+    float maxDis = 1;
     DanGong father;
 
     SpringJoint2D sp;
@@ -35,7 +36,7 @@ public class Middle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (checkHaveBird())
+        if (checkHaveBird() && father.isHoldBird)
         {
             follwBird();
         }        
@@ -66,7 +67,11 @@ public class Middle : MonoBehaviour
 
     void follwBird()
     {
-        transform.position = father.bird.transform.position;
+        Vector2 left = Camera.main.ScreenToWorldPoint(Input.mousePosition) - father.left_Pos.transform.position;
+        Vector2 right = Camera.main.ScreenToWorldPoint(Input.mousePosition) - father.right_Pos.transform.position;
+        float len = (left + right).magnitude / 2 > maxDis ? maxDis : (left + right).magnitude / 2;
+        Vector2 beginPos = (father.left_Pos.transform.position + father.right_Pos.transform.position) / 2;
+        transform.position = beginPos + (left + right).normalized * len;
     }
     
     public void getVecAndDis(out Vector2 direct, out float lenght)

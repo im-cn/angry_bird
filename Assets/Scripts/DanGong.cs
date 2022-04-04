@@ -52,6 +52,12 @@ public class DanGong : MonoBehaviour
         float lenght;
         middle.GetComponent<Middle>().getVecAndDis(out direct, out lenght);
         isHaveBird = false;
-        bird.GetComponent<Bird>().Fly(direct, lenght);
+        bird.Fly(direct, lenght);
+        Invoke("MakeABird", 2);
+    }
+    
+    public bool isHoldBird
+    {
+        get { return bird.isHoldBird; }        
     }
 }
